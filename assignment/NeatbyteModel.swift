@@ -4,7 +4,7 @@ import Photos
 
 @MainActor
 @Observable
-final class ClearNestModel {
+final class NeatbyteModel {
     private let storageService: StorageService
     let photoLibrary: PhotoLibraryService
     let contactService: ContactService
@@ -145,7 +145,7 @@ final class ClearNestModel {
             contactGroups = try contactService.fetchDuplicateGroups()
             contactScanPhase = .ready
         } catch {
-            contactScanPhase = .failed("ClearNest couldn’t read the accessible contacts.")
+            contactScanPhase = .failed("Neatbyte couldn’t read the accessible contacts.")
         }
     }
 
@@ -158,7 +158,7 @@ final class ClearNestModel {
             await scanContacts()
         } catch {
             contactCleanupOutcome = .failed(
-                "The contacts couldn’t be merged. ClearNest left the source contacts unchanged."
+                "The contacts couldn’t be merged. Neatbyte left the source contacts unchanged."
             )
         }
         isChangingContacts = false
@@ -458,7 +458,7 @@ final class ClearNestModel {
                 cleanupOutcome = .cancelled
             } else {
                 cleanupOutcome = .failed(
-                    "ClearNest couldn’t delete the selected media. Nothing else was changed."
+                    "Neatbyte couldn’t delete the selected media. Nothing else was changed."
                 )
             }
         }

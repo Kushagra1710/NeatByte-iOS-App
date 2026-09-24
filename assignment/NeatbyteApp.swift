@@ -1,10 +1,10 @@
 import SwiftUI
 
 @main
-struct ClearNestApp: App {
+struct NeatbyteApp: App {
     var body: some Scene {
         WindowGroup {
-            ClearNestRootView()
+            NeatbyteRootView()
         }
     }
 }

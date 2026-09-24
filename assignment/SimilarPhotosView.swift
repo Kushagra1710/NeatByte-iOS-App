@@ -2,7 +2,7 @@ import Photos
 import SwiftUI
 
 struct SimilarPhotosCategoryCard: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -58,7 +58,7 @@ struct SimilarPhotosCategoryCard: View {
 }
 
 struct SimilarPhotosView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -138,7 +138,7 @@ struct SimilarPhotosView: View {
                     ContentUnavailableView(
                         "No groups found",
                         systemImage: "photo.stack",
-                        description: Text("ClearNest found no verified duplicates or conservatively matched similar photos.")
+                        description: Text("Neatbyte found no verified duplicates or conservatively matched similar photos.")
                     )
                 }
             } else {
@@ -180,7 +180,7 @@ struct PhotoScanProgressView: View {
 
 struct PhotoGroupRow: View {
     let group: PhotoGroup
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -217,9 +217,12 @@ struct PhotoGroupRow: View {
 
 struct PhotoGroupReviewContent: View {
     let groupID: String
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
-    private let columns = [GridItem(.adaptive(minimum: 145), spacing: 12)]
+    private let columns = [
+        GridItem(.flexible(minimum: 0), spacing: 12),
+        GridItem(.flexible(minimum: 0), spacing: 12)
+    ]
 
     var body: some View {
         if let group = model.photoGroups.first(where: { $0.id == groupID }) {
@@ -299,13 +302,16 @@ struct GroupedPhotoTile: View {
     var body: some View {
         VStack(spacing: 8) {
             ZStack(alignment: .topTrailing) {
-                PhotoAssetImage(
-                    identifier: photo.id,
-                    photoLibrary: photoLibrary,
-                    targetSize: CGSize(width: 420, height: 420)
-                )
+                GeometryReader { proxy in
+                    PhotoAssetImage(
+                        identifier: photo.id,
+                        photoLibrary: photoLibrary,
+                        targetSize: CGSize(width: 420, height: 420)
+                    )
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
                 .frame(height: 180)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
 
                 if isKeeper {
                     Label("Keep", systemImage: "checkmark")
@@ -340,7 +346,7 @@ struct GroupedPhotoTile: View {
 
 struct GroupReviewActions: View {
     let groupID: String
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         Button("Select suggested deletions") {

@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 struct DuplicateContactsCategoryCard: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -59,7 +59,7 @@ struct DuplicateContactsCategoryCard: View {
 }
 
 struct DuplicateContactsView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -124,7 +124,7 @@ struct DuplicateContactsView: View {
 }
 
 struct ContactAccessContent: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
     let openSettings: () -> Void
 
     var body: some View {
@@ -141,7 +141,7 @@ struct ContactAccessContent: View {
             case .restricted:
                 ContactsUnavailableView(
                     title: "Contacts access restricted",
-                    message: "A device restriction prevents ClearNest from accessing contacts.",
+                    message: "A device restriction prevents Neatbyte from accessing contacts.",
                     openSettings: nil
                 )
             case .limited, .authorized:
@@ -152,13 +152,13 @@ struct ContactAccessContent: View {
 }
 
 struct ContactsPermissionView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         ContentUnavailableView {
             Label("Find duplicate contacts", systemImage: "person.2.badge.gearshape")
         } description: {
-            Text("ClearNest compares names, phone numbers, and email addresses on this iPhone. No contact changes happen without a separate review and confirmation.")
+            Text("Neatbyte compares names, phone numbers, and email addresses on this iPhone. No contact changes happen without a separate review and confirmation.")
         } actions: {
             Button("Continue") {
                 Task { await model.requestContactsAndScan() }
@@ -189,7 +189,7 @@ struct ContactsUnavailableView: View {
 }
 
 struct ContactResultsView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -217,7 +217,7 @@ struct ContactResultsView: View {
                     ContentUnavailableView(
                         "No duplicate contacts found",
                         systemImage: "person.2",
-                        description: Text("ClearNest found no strong or carefully qualified possible matches.")
+                        description: Text("Neatbyte found no strong or carefully qualified possible matches.")
                     )
                 } else {
                     List(model.contactGroups) { group in
@@ -232,7 +232,7 @@ struct ContactResultsView: View {
 
 struct ContactGroupRow: View {
     let group: ContactGroup
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -261,14 +261,14 @@ struct ContactGroupRow: View {
 
 struct ContactMergeReviewView: View {
     let group: ContactGroup
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     @State private var survivorID: String
     @State private var showsMergeConfirmation = false
     @State private var contactPendingDeletion: ContactRecord?
     @Environment(\.dismiss) private var dismiss
 
-    init(group: ContactGroup, model: ClearNestModel) {
+    init(group: ContactGroup, model: NeatbyteModel) {
         self.group = group
         self.model = model
         _survivorID = State(initialValue: group.members[0].id)

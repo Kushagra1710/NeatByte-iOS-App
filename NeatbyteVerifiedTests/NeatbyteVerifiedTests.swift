@@ -1,14 +1,14 @@
 //
-//  ClearNestVerifiedTests.swift
-//  ClearNestVerifiedTests
+//  NeatbyteVerifiedTests.swift
+//  NeatbyteVerifiedTests
 //
 //  Created by KUSHAGRA SHARMA on 23/09/26.
 //
 
 import Testing
-@testable import ClearNest
+@testable import Neatbyte
 
-struct ClearNestVerifiedTests {
+struct NeatbyteVerifiedTests {
     @Test
     func storageSnapshotCalculatesUsedCapacity() {
         let snapshot = StorageSnapshot(totalBytes: 1_000, availableBytes: 250)

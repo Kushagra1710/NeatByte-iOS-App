@@ -4,7 +4,7 @@ import Photos
 import SwiftUI
 
 struct LargeVideoCategoryCard: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -60,7 +60,7 @@ struct LargeVideoCategoryCard: View {
 }
 
 struct LargeVideosView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         VStack(spacing: 0) {

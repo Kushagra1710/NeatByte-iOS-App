@@ -2,8 +2,8 @@ import Photos
 import SwiftUI
 import UIKit
 
-struct ClearNestRootView: View {
-    @State private var model = ClearNestModel()
+struct NeatbyteRootView: View {
+    @State private var model = NeatbyteModel()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -56,7 +56,7 @@ struct ClearNestRootView: View {
 }
 
 struct DashboardView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         ScrollView {
@@ -78,7 +78,7 @@ struct DashboardView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground))
-        .navigationTitle("ClearNest")
+        .navigationTitle("Neatbyte")
         .task {
             model.refreshAuthorization()
             if model.authorizationStatus == .authorized || model.authorizationStatus == .limited {
@@ -167,7 +167,7 @@ struct DashboardHeader: View {
                 .font(.title2.bold())
                 .foregroundStyle(.green)
                 .accessibilityAddTraits(.isHeader)
-            Text("Review everything before it leaves your library. ClearNest processes your media on this iPhone.")
+            Text("Review everything before it leaves your library. Neatbyte processes your media on this iPhone.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -232,7 +232,7 @@ struct PrivacyCard: View {
 }
 
 struct ScreenshotCategoryCard: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -292,7 +292,7 @@ struct ScreenshotCategoryCard: View {
 }
 
 struct ScreenshotGalleryView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     private let columns = [
         GridItem(.adaptive(minimum: 104), spacing: 3)
@@ -346,13 +346,13 @@ struct ScreenshotGalleryView: View {
 }
 
 struct PhotosPermissionView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         ContentUnavailableView {
             Label("Find your screenshots", systemImage: "photo.badge.magnifyingglass")
         } description: {
-            Text("ClearNest needs read and write access so it can show screenshots and delete only the ones you approve. Processing stays on this iPhone.")
+            Text("Neatbyte needs read and write access so it can show screenshots and delete only the ones you approve. Processing stays on this iPhone.")
         } actions: {
             Button("Continue") {
                 Task { await model.requestAccessAndScan() }
@@ -375,7 +375,7 @@ struct PhotosUnavailableView: View {
             )
         } description: {
             Text(isRestricted
-                 ? "A device restriction prevents ClearNest from accessing Photos."
+                 ? "A device restriction prevents Neatbyte from accessing Photos."
                  : "Allow Photos access in Settings to scan and review screenshots.")
         } actions: {
             if !isRestricted {
@@ -391,7 +391,7 @@ struct PhotosUnavailableView: View {
 }
 
 struct ScreenshotResultsView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
     let columns: [GridItem]
 
     var body: some View {
@@ -518,7 +518,7 @@ struct ScreenshotPreviewView: View {
 }
 
 struct ReviewBar: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         NavigationLink {
@@ -549,7 +549,7 @@ struct ReviewBar: View {
 }
 
 struct SelectionSizeText: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
 
     var body: some View {
         if model.selectedKnownBytes > 0 {
@@ -565,7 +565,7 @@ struct SelectionSizeText: View {
 }
 
 struct CleanupReviewView: View {
-    let model: ClearNestModel
+    let model: NeatbyteModel
     @State private var showsConfirmation = false
 
     var body: some View {
@@ -647,7 +647,7 @@ struct CleanupReviewView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("ClearNest will request deletion only for the items listed here.")
+            Text("Neatbyte will request deletion only for the items listed here.")
         }
     }
 }
@@ -689,5 +689,5 @@ struct ReviewRow: View {
 }
 
 #Preview {
-    ClearNestRootView()
+    NeatbyteRootView()
 }

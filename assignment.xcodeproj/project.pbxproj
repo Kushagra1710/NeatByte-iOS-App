@@ -17,25 +17,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* ClearNest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearNest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B160B6CB3063C58200A232FA /* ClearNestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearNestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B160B6DE306412A900A232FA /* ClearNestVerifiedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearNestVerifiedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000120 /* Neatbyte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neatbyte.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B160B6CB3063C58200A232FA /* NeatbyteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeatbyteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B160B6DE306412A900A232FA /* NeatbyteVerifiedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeatbyteVerifiedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B138CEE530644B06007BD1A5 /* Exceptions for "assignment" folder in "assignment" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 000000000000000100000000 /* assignment */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000010 /* assignment */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B138CEE530644B06007BD1A5 /* Exceptions for "assignment" folder in "assignment" target */,
+			);
 			path = assignment;
 			sourceTree = "<group>";
 		};
-		B160B6CC3063C58200A232FA /* ClearNestTests */ = {
+		B160B6CC3063C58200A232FA /* NeatbyteTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ClearNestTests;
+			path = NeatbyteTests;
 			sourceTree = "<group>";
 		};
-		B160B6DF306412A900A232FA /* ClearNestVerifiedTests */ = {
+		B160B6DF306412A900A232FA /* NeatbyteVerifiedTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ClearNestVerifiedTests;
+			path = NeatbyteVerifiedTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -63,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000010 /* assignment */,
-				B160B6CC3063C58200A232FA /* ClearNestTests */,
-				B160B6DF306412A900A232FA /* ClearNestVerifiedTests */,
+				B160B6CC3063C58200A232FA /* NeatbyteTests */,
+				B160B6DF306412A900A232FA /* NeatbyteVerifiedTests */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,9 +85,9 @@
 		000000000000000000000020 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000120 /* ClearNest.app */,
-				B160B6CB3063C58200A232FA /* ClearNestTests.xctest */,
-				B160B6DE306412A900A232FA /* ClearNestVerifiedTests.xctest */,
+				000000000000000000000120 /* Neatbyte.app */,
+				B160B6CB3063C58200A232FA /* NeatbyteTests.xctest */,
+				B160B6DE306412A900A232FA /* NeatbyteVerifiedTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,7 +110,7 @@
 			);
 			name = assignment;
 			productName = MyApp;
-			productReference = 000000000000000000000120 /* ClearNest.app */;
+			productReference = 000000000000000000000120 /* Neatbyte.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B160B6CA3063C58200A232FA /* ClearNestTests */ = {
@@ -111,11 +124,11 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				B160B6CC3063C58200A232FA /* ClearNestTests */,
+				B160B6CC3063C58200A232FA /* NeatbyteTests */,
 			);
 			name = ClearNestTests;
 			productName = ClearNestTests;
-			productReference = B160B6CB3063C58200A232FA /* ClearNestTests.xctest */;
+			productReference = B160B6CB3063C58200A232FA /* NeatbyteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		B160B6DD306412A900A232FA /* ClearNestVerifiedTests */ = {
@@ -132,11 +145,11 @@
 				B160B6E3306412A900A232FA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				B160B6DF306412A900A232FA /* ClearNestVerifiedTests */,
+				B160B6DF306412A900A232FA /* NeatbyteVerifiedTests */,
 			);
 			name = ClearNestVerifiedTests;
 			productName = ClearNestVerifiedTests;
-			productReference = B160B6DE306412A900A232FA /* ClearNestVerifiedTests.xctest */;
+			productReference = B160B6DE306412A900A232FA /* NeatbyteVerifiedTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -362,6 +375,8 @@
 		000000000000000111000000 /* Debug configuration for PBXNativeTarget "assignment" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 832DDL66PQ;
@@ -369,7 +384,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ClearNest;
+				INFOPLIST_FILE = assignment/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Neatbyte;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "ClearNest needs access to find possible duplicate contacts and show every proposed change before you approve it.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ClearNest needs access to find screenshots and let you review them before deletion. Your photos stay on this device.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -386,8 +403,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNest;
-				PRODUCT_NAME = ClearNest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.Neatbyte;
+				PRODUCT_MODULE_NAME = Neatbyte;
+				PRODUCT_NAME = Neatbyte;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -404,6 +422,8 @@
 		000000000000000112000000 /* Release configuration for PBXNativeTarget "assignment" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 832DDL66PQ;
@@ -411,7 +431,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ClearNest;
+				INFOPLIST_FILE = assignment/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Neatbyte;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "ClearNest needs access to find possible duplicate contacts and show every proposed change before you approve it.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ClearNest needs access to find screenshots and let you review them before deletion. Your photos stay on this device.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -428,8 +450,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNest;
-				PRODUCT_NAME = ClearNest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.Neatbyte;
+				PRODUCT_MODULE_NAME = Neatbyte;
+				PRODUCT_NAME = Neatbyte;
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -453,8 +476,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNestTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.NeatbyteTests;
+				PRODUCT_MODULE_NAME = NeatbyteTests;
+				PRODUCT_NAME = NeatbyteTests;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -478,8 +502,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNestTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.NeatbyteTests;
+				PRODUCT_MODULE_NAME = NeatbyteTests;
+				PRODUCT_NAME = NeatbyteTests;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -504,8 +529,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNest.ClearNestVerifiedTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.NeatbyteVerifiedTests;
+				PRODUCT_MODULE_NAME = NeatbyteVerifiedTests;
+				PRODUCT_NAME = NeatbyteVerifiedTests;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -530,8 +556,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MACOSX_DEPLOYMENT_TARGET = 27.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.ClearNest.ClearNestVerifiedTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kushagrasharma.NeatbyteVerifiedTests;
+				PRODUCT_MODULE_NAME = NeatbyteVerifiedTests;
+				PRODUCT_NAME = NeatbyteVerifiedTests;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";

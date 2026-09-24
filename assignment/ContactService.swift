@@ -43,7 +43,7 @@ final class ContactService {
         mergeEmailAddresses(from: sources, into: mutableSurvivor)
 
         let saveRequest = CNSaveRequest()
-        saveRequest.transactionAuthor = "ClearNest"
+        saveRequest.transactionAuthor = "Neatbyte"
         saveRequest.update(mutableSurvivor)
         for source in sources {
             guard let mutableSource = source.mutableCopy() as? CNMutableContact else { continue }
@@ -61,7 +61,7 @@ final class ContactService {
             throw CNError(.recordDoesNotExist)
         }
         let request = CNSaveRequest()
-        request.transactionAuthor = "ClearNest"
+        request.transactionAuthor = "Neatbyte"
         request.delete(mutableContact)
         try store.execute(request)
     }
