@@ -256,6 +256,15 @@ struct PhotoGroupReviewContent: View {
             }
             .navigationTitle(group.kind == .exact ? "Exact Duplicates" : "Similar Photos")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        SwipePhotoReviewView(groupID: group.id, model: model)
+                    } label: {
+                        Label("Swipe", systemImage: "hand.draw.fill")
+                    }
+                }
+            }
             .safeAreaInset(edge: .bottom) {
                 if !model.selectedIDs.isEmpty {
                     ReviewBar(model: model)

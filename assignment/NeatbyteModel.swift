@@ -216,6 +216,15 @@ final class NeatbyteModel {
         blurryPhotos = photos
     }
 
+    func setDeletionSelection(_ selected: Bool, for identifier: String) {
+        if selected {
+            selectedIDs.insert(identifier)
+            measureSizeIfNeeded(identifier: identifier)
+        } else {
+            selectedIDs.remove(identifier)
+        }
+    }
+
     func toggleSelection(for identifier: String) {
         if selectedIDs.remove(identifier) == nil {
             selectedIDs.insert(identifier)
