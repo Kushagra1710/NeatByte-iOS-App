@@ -259,40 +259,55 @@ struct LargeVideoPreviewView: View {
     @State private var loadFailed = false
 
     var body: some View {
-        VStack(spacing: 20) {
-            if let player {
-                VideoPlayer(player: player)
-                    .onAppear { player.play() }
-                    .onDisappear { player.pause() }
-            } else if loadFailed {
-                ContentUnavailableView(
-                    "Video unavailable",
-                    systemImage: "icloud.slash",
-                    description: Text("The full video may only be available in iCloud.")
-                )
-            } else {
-                ProgressView("Loading local video…")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-
-            VStack(spacing: 4) {
-                Text(Duration.seconds(video.duration), format: .time(pattern: .minuteSecond))
-                if let measuredBytes {
-                    Text(measuredBytes, format: .byteCount(style: .file))
-                        .foregroundStyle(.secondary)
+        ScrollView {
+            VStack(spacing: 20) {
+                if let player {
+                    VideoPlayer(player: player)
+                        .frame(height: 280)
+                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                        .onAppear { player.play() }
+                        .onDisappear { player.pause() }
+                } else if loadFailed {
+                    ContentUnavailableView(
+                        "Video unavailable",
+                        systemImage: "icloud.slash",
+                        description: Text("The full video may only be available in iCloud.")
+                    )
+                    .frame(height: 280)
                 } else {
-                    Text("Exact size unavailable")
-                        .foregroundStyle(.secondary)
+                    ProgressView("Loading local video…")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 280)
                 }
-            }
-            .font(.subheadline)
 
-            Button(isSelected ? "Keep this video" : "Select for deletion") {
-                toggleSelection()
+                VStack(spacing: 4) {
+                    Text(Duration.seconds(video.duration), format: .time(pattern: .minuteSecond))
+                    if let measuredBytes {
+                        Text(measuredBytes, format: .byteCount(style: .file))
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text("Exact size unavailable")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .font(.subheadline)
+
+                VideoCompressionSection(
+                    video: video,
+                    originalBytes: measuredBytes,
+                    photoLibrary: photoLibrary,
+                    isOriginalSelected: isSelected,
+                    selectOriginalForDeletion: toggleSelection
+                )
+
+                Button(isSelected ? "Keep this video" : "Select original for deletion") {
+                    toggleSelection()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(isSelected ? .gray : .red)
+                .padding(.bottom)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(isSelected ? .gray : .red)
-            .padding(.bottom)
+            .padding()
         }
         .navigationTitle("Video Preview")
         .navigationBarTitleDisplayMode(.inline)
