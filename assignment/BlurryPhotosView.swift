@@ -4,21 +4,50 @@ import Observation
 import SwiftUI
 import UIKit
 
+enum BlurConfidence: Int, Comparable, Sendable {
+    case possible
+    case veryLikely
+
+    static func < (lhs: BlurConfidence, rhs: BlurConfidence) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+
+    var title: LocalizedStringResource {
+        switch self {
+        case .possible: "Possibly blurry"
+        case .veryLikely: "Very likely blurry"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .possible: "questionmark.circle.fill"
+        case .veryLikely: "exclamationmark.triangle.fill"
+        }
+    }
+}
+
+struct BlurAnalysis: Sendable {
+    let sharpnessScore: Double
+    let confidence: BlurConfidence?
+}
+
 struct BlurryPhotoResult: Identifiable, Equatable {
     let photo: PhotoCandidate
     let sharpnessScore: Double
+    let confidence: BlurConfidence
 
     var id: String { photo.id }
 }
 
 actor BlurAnalyzer {
-    func sharpnessScore(imageData: Data) throws -> Double {
+    func analyze(imageData: Data) throws -> BlurAnalysis {
         guard let image = UIImage(data: imageData),
               let cgImage = image.cgImage else {
             throw CocoaError(.fileReadCorruptFile)
         }
 
-        let maxDimension = 180
+        let maxDimension = 256
         let scale = min(
             Double(maxDimension) / Double(cgImage.width),
             Double(maxDimension) / Double(cgImage.height),
@@ -43,12 +72,88 @@ actor BlurAnalyzer {
         context.interpolationQuality = .medium
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
 
+        let luminance = luminanceStatistics(pixels)
+
+        // Very dark or nearly featureless images cannot be classified reliably.
+        guard luminance.mean >= 30,
+              luminance.mean <= 235,
+              luminance.standardDeviation >= 14 else {
+            return BlurAnalysis(sharpnessScore: 0, confidence: nil)
+        }
+
+        let centerRect = PixelRect(
+            minX: width / 4,
+            maxX: width * 3 / 4,
+            minY: height / 4,
+            maxY: height * 3 / 4
+        )
+        let centerSharpness = laplacianVariance(
+            pixels: pixels,
+            width: width,
+            rect: centerRect
+        )
+
+        var regionalScores: [Double] = []
+        for row in 0..<3 {
+            for column in 0..<3 {
+                let rect = PixelRect(
+                    minX: column * width / 3,
+                    maxX: (column + 1) * width / 3,
+                    minY: row * height / 3,
+                    maxY: (row + 1) * height / 3
+                )
+                regionalScores.append(
+                    laplacianVariance(pixels: pixels, width: width, rect: rect)
+                )
+            }
+        }
+
+        regionalScores.sort()
+        let upperRegionalScore = regionalScores[regionalScores.count * 3 / 4]
+        let focusScore = centerSharpness * 0.65 + upperRegionalScore * 0.35
+
+        let confidence: BlurConfidence?
+        if focusScore < 55, centerSharpness < 65, upperRegionalScore < 90 {
+            confidence = .veryLikely
+        } else if focusScore < 90, centerSharpness < 105, upperRegionalScore < 140 {
+            confidence = .possible
+        } else {
+            confidence = nil
+        }
+
+        return BlurAnalysis(sharpnessScore: focusScore, confidence: confidence)
+    }
+
+    private func luminanceStatistics(_ pixels: [UInt8]) -> (mean: Double, standardDeviation: Double) {
+        guard !pixels.isEmpty else { return (0, 0) }
+        let count = Double(pixels.count)
+        let total = pixels.reduce(0.0) { $0 + Double($1) }
+        let mean = total / count
+        let squaredDifference = pixels.reduce(0.0) { partialResult, pixel in
+            let difference = Double(pixel) - mean
+            return partialResult + difference * difference
+        }
+        return (mean, sqrt(squaredDifference / count))
+    }
+
+    private func laplacianVariance(
+        pixels: [UInt8],
+        width: Int,
+        rect: PixelRect
+    ) -> Double {
+        let minX = max(1, rect.minX)
+        let maxX = min(width - 1, rect.maxX)
+        let height = pixels.count / width
+        let minY = max(1, rect.minY)
+        let maxY = min(height - 1, rect.maxY)
+        guard minX < maxX, minY < maxY else { return 0 }
+
         var total = 0.0
         var totalSquared = 0.0
         var count = 0
 
-        for y in 1..<(height - 1) {
-            for x in 1..<(width - 1) {
+        for y in minY..<maxY {
+            for x in minX..<maxX {
                 let center = Int(pixels[y * width + x])
                 let laplacian = Double(
                     4 * center
@@ -67,6 +172,13 @@ actor BlurAnalyzer {
         let mean = total / Double(count)
         return max(0, totalSquared / Double(count) - mean * mean)
     }
+}
+
+private struct PixelRect: Sendable {
+    let minX: Int
+    let maxX: Int
+    let minY: Int
+    let maxY: Int
 }
 
 @MainActor
@@ -97,13 +209,13 @@ final class BlurryPhotosModel {
                 guard !Task.isCancelled else { break }
                 do {
                     let data = try await photoLibrary.requestAnalysisData(identifier: candidate.id)
-                    let score = try await analyzer.sharpnessScore(imageData: data)
-                    // A deliberately conservative threshold to reduce false positives.
-                    if score < 95 {
+                    let analysis = try await analyzer.analyze(imageData: data)
+                    if let confidence = analysis.confidence {
                         matches.append(
                             BlurryPhotoResult(
                                 photo: candidate,
-                                sharpnessScore: score
+                                sharpnessScore: analysis.sharpnessScore,
+                                confidence: confidence
                             )
                         )
                     }
@@ -114,7 +226,12 @@ final class BlurryPhotosModel {
             }
 
             if !Task.isCancelled {
-                results = matches.sorted { $0.sharpnessScore < $1.sharpnessScore }
+                results = matches.sorted {
+                    if $0.confidence != $1.confidence {
+                        return $0.confidence > $1.confidence
+                    }
+                    return $0.sharpnessScore < $1.sharpnessScore
+                }
             }
             isScanning = false
         }
@@ -190,7 +307,7 @@ struct BlurryPhotosView: View {
                 ContentUnavailableView {
                     Label("Scan for blurry photos", systemImage: "camera.filters")
                 } description: {
-                    Text("Neatbyte uses a conservative sharpness score. Always review results before deleting.")
+                    Text("Neatbyte checks the subject area, surrounding regions, brightness, and contrast. Results are never selected automatically.")
                 } actions: {
                     Button("Start Scan") {
                         model.scan(photoLibrary: appModel.photoLibrary)
@@ -243,7 +360,7 @@ struct BlurryPhotosView: View {
 struct BlurryPhotosExplanation: View {
     var body: some View {
         Label(
-            "Likely blur—not guaranteed. Low edge detail can also occur in intentionally soft or dark photos.",
+            "On-device analysis shows only likely blur and skips photos that are too dark to judge reliably. Review every result before deleting.",
             systemImage: "exclamationmark.triangle.fill"
         )
         .font(.footnote)
@@ -279,9 +396,10 @@ struct BlurryPhotoTile: View {
                 .accessibilityLabel(isSelected ? "Deselect blurry photo" : "Select blurry photo")
             }
 
-            Text("Sharpness: \(result.sharpnessScore, format: .number.precision(.fractionLength(0)))")
+            Label(result.confidence.title, systemImage: result.confidence.systemImage)
                 .font(.caption.bold())
-            Text("Review before deleting")
+                .foregroundStyle(result.confidence == .veryLikely ? .red : .orange)
+            Text("Confidence is an estimate—review before deleting")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
