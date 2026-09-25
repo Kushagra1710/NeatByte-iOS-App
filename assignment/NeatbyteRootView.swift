@@ -74,6 +74,7 @@ struct DashboardView: View {
                 LargeVideoCategoryCard(model: model)
                 SimilarPhotosCategoryCard(model: model)
                 DuplicateContactsCategoryCard(model: model)
+                PrivateVaultCategoryCard()
             }
             .padding()
         }

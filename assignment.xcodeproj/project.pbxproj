@@ -388,6 +388,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Neatbyte;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "ClearNest needs access to find possible duplicate contacts and show every proposed change before you approve it.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID to unlock your encrypted Neatbyte private vault.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ClearNest needs access to find screenshots and let you review them before deletion. Your photos stay on this device.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -435,6 +436,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Neatbyte;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "ClearNest needs access to find possible duplicate contacts and show every proposed change before you approve it.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID to unlock your encrypted Neatbyte private vault.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ClearNest needs access to find screenshots and let you review them before deletion. Your photos stay on this device.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
