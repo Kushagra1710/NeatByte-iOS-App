@@ -30,6 +30,7 @@ final class NeatbyteModel {
     private(set) var measuringIDs: Set<String> = []
     private(set) var sizeMeasurementAttemptedIDs: Set<String> = []
     private(set) var cleanupOutcome: CleanupOutcome?
+    private(set) var cleanupSummary: CleanupSummary?
     private(set) var isDeleting = false
     @ObservationIgnored private var videoScanTask: Task<Void, Never>?
     @ObservationIgnored private var photoScanTask: Task<Void, Never>?
@@ -443,10 +444,17 @@ final class NeatbyteModel {
         guard !selectedIDs.isEmpty else { return }
         isDeleting = true
         let identifiers = selectedIDs
+        let knownBytes = identifiers.compactMap { measuredBytes[$0] }.reduce(0, +)
+        let hasUnknownSizes = identifiers.contains { measuredBytes[$0] == nil }
 
         do {
             try await photoLibrary.deleteAssets(identifiers: identifiers)
-            cleanupOutcome = .success(deletedCount: identifiers.count)
+            cleanupSummary = CleanupSummary(
+                deletedCount: identifiers.count,
+                knownBytes: knownBytes,
+                hasUnknownSizes: hasUnknownSizes
+            )
+            cleanupOutcome = nil
             selectedIDs.removeAll()
             for identifier in identifiers {
                 measuredBytes.removeValue(forKey: identifier)
@@ -489,6 +497,10 @@ final class NeatbyteModel {
 
     func dismissOutcome() {
         cleanupOutcome = nil
+    }
+
+    func dismissCleanupSummary() {
+        cleanupSummary = nil
     }
 
     private func measureSizeIfNeeded(identifier: String) {

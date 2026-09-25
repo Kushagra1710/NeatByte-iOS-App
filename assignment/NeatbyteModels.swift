@@ -199,3 +199,10 @@ enum CleanupOutcome: Equatable {
     case cancelled
     case failed(LocalizedStringResource)
 }
+
+struct CleanupSummary: Identifiable, Equatable {
+    let id = UUID()
+    let deletedCount: Int
+    let knownBytes: Int64
+    let hasUnknownSizes: Bool
+}

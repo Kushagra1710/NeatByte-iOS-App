@@ -25,6 +25,16 @@ struct NeatbyteRootView: View {
         } message: {
             Text(cleanupMessage)
         }
+        .sheet(
+            item: Binding(
+                get: { model.cleanupSummary },
+                set: { if $0 == nil { model.dismissCleanupSummary() } }
+            )
+        ) { summary in
+            CleanupSummaryView(summary: summary) {
+                model.dismissCleanupSummary()
+            }
+        }
         .onChange(of: scenePhase) { _, newPhase in
             guard newPhase == .active else { return }
             model.refreshAuthorization()
