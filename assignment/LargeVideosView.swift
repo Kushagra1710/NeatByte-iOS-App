@@ -184,16 +184,12 @@ struct LargeVideoRow: View {
     let photoLibrary: PhotoLibraryService
     let toggleSelection: () -> Void
 
+    @State private var showsPreview = false
+
     var body: some View {
         HStack(spacing: 12) {
-            NavigationLink {
-                LargeVideoPreviewView(
-                    video: video,
-                    measuredBytes: measuredBytes,
-                    isSelected: isSelected,
-                    photoLibrary: photoLibrary,
-                    toggleSelection: toggleSelection
-                )
+            Button {
+                showsPreview = true
             } label: {
                 HStack(spacing: 12) {
                     ZStack(alignment: .bottomTrailing) {
@@ -232,8 +228,11 @@ struct LargeVideoRow: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Preview video")
 
             Spacer()
 
@@ -245,6 +244,15 @@ struct LargeVideoRow: View {
             .accessibilityLabel(isSelected ? "Deselect video" : "Select video")
         }
         .padding(.vertical, 4)
+        .navigationDestination(isPresented: $showsPreview) {
+            LargeVideoPreviewView(
+                video: video,
+                measuredBytes: measuredBytes,
+                isSelected: isSelected,
+                photoLibrary: photoLibrary,
+                toggleSelection: toggleSelection
+            )
+        }
     }
 }
 
