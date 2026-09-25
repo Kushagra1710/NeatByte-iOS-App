@@ -73,6 +73,7 @@ struct DashboardView: View {
                 ScreenshotCategoryCard(model: model)
                 LargeVideoCategoryCard(model: model)
                 SimilarPhotosCategoryCard(model: model)
+                BlurryPhotosCategoryCard(model: model)
                 DuplicateContactsCategoryCard(model: model)
                 PrivateVaultCategoryCard()
             }
@@ -610,6 +611,20 @@ struct CleanupReviewView: View {
                     }
                 } header: {
                     Text("Duplicate and similar photos to delete")
+                }
+            }
+
+            if !model.selectedBlurryPhotos.isEmpty {
+                Section {
+                    ForEach(model.selectedBlurryPhotos) { photo in
+                        PhotoReviewRow(
+                            photo: photo,
+                            measuredBytes: model.measuredBytes[photo.id],
+                            photoLibrary: model.photoLibrary
+                        )
+                    }
+                } header: {
+                    Text("Blurry photos to delete")
                 }
             }
 

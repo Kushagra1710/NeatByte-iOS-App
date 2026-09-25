@@ -14,6 +14,7 @@ final class NeatbyteModel {
     private(set) var screenshots: [ScreenshotItem] = []
     private(set) var largeVideos: [LargeVideoItem] = []
     private(set) var photoGroups: [PhotoGroup] = []
+    private(set) var blurryPhotos: [PhotoCandidate] = []
     private(set) var contactGroups: [ContactGroup] = []
     private(set) var scanPhase: ScanPhase = .idle
     private(set) var videoScanPhase: ScanPhase = .idle
@@ -59,6 +60,13 @@ final class NeatbyteModel {
         return photoGroups
             .flatMap(\.members)
             .filter { selectedIDs.contains($0.id) && seen.insert($0.id).inserted }
+    }
+
+    var selectedBlurryPhotos: [PhotoCandidate] {
+        let groupedIDs = Set(photoGroups.flatMap(\.members).map(\.id))
+        return blurryPhotos.filter {
+            selectedIDs.contains($0.id) && !groupedIDs.contains($0.id)
+        }
     }
 
     var selectedScreenshotIDs: Set<String> {
@@ -202,6 +210,10 @@ final class NeatbyteModel {
         selectedIDs.subtract(previousIDs.subtracting(currentIDs))
         scanPhase = .ready
         await measureSizes(for: currentIDs)
+    }
+
+    func registerBlurryPhotos(_ photos: [PhotoCandidate]) {
+        blurryPhotos = photos
     }
 
     func toggleSelection(for identifier: String) {
@@ -433,6 +445,7 @@ final class NeatbyteModel {
             }
             await scanScreenshots()
             largeVideos.removeAll { identifiers.contains($0.id) }
+            blurryPhotos.removeAll { identifiers.contains($0.id) }
             photoGroups = photoGroups.compactMap { group in
                 let remaining = group.members.filter { !identifiers.contains($0.id) }
                 guard remaining.count > 1 else { return nil }
