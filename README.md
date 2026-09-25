@@ -9,6 +9,11 @@ Neatbyte is an on-device iPhone storage cleaner built with SwiftUI. It helps use
 - Suggested keeper for each photo group
 - Screenshot browser with multi-selection
 - Large videos sorted by size with preview support
+- Large-video compression with 1080p and 720p presets, progress, cancellation, and safe copy creation
+- Swipe-to-keep-or-delete review with undo
+- Conservative on-device blurry-photo detection with manual review
+- AES-GCM encrypted private vault protected by Face ID/device authentication or a 6-digit PIN
+- Post-cleanup summary showing item count and measured space selected for cleanup
 - Duplicate-contact detection with merge and delete actions
 - Final review screen showing selected items and estimated space savings
 - Clear handling for denied, restricted, and limited Photos access
@@ -17,6 +22,9 @@ Neatbyte is an on-device iPhone storage cleaner built with SwiftUI. It helps use
 ## Safety and Privacy
 
 - Photos and contacts remain on the device.
+- Vault media is encrypted locally, stored with complete file protection, and excluded from backups.
+- Importing into the vault never automatically deletes the Photos original.
+- Video compression always creates a new copy before offering to select the original for deletion.
 - Nothing is deleted without explicit confirmation.
 - Similar-photo matches are presented for manual review.
 - Contact changes require a separate review and confirmation.
@@ -50,13 +58,14 @@ Run the tests with **Product > Test** in Xcode.
 - Contacts
 - Vision
 - CryptoKit
+- LocalAuthentication and Keychain Services
+- AVFoundation and AVKit
 - Swift Testing
 
 ## Known Limitations
 
-- Video compression is not included.
-- Blurry-photo detection is not included.
-- Private vault, calendar cleanup, and a Home Screen widget are not included.
+- Calendar cleanup and a Home Screen widget are not included.
+- Blur detection is intentionally conservative and can flag intentionally soft or dark images, so every result requires review.
 - Scan performance and results depend on the size of the local library and availability of iCloud-hosted media.
 
 ## Demo
