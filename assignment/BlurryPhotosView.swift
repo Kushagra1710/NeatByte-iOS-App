@@ -379,13 +379,16 @@ struct BlurryPhotoTile: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
             ZStack(alignment: .topTrailing) {
-                PhotoAssetImage(
-                    identifier: result.id,
-                    photoLibrary: photoLibrary,
-                    targetSize: CGSize(width: 420, height: 420)
-                )
+                GeometryReader { proxy in
+                    PhotoAssetImage(
+                        identifier: result.id,
+                        photoLibrary: photoLibrary,
+                        targetSize: CGSize(width: 420, height: 420)
+                    )
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
                 .aspectRatio(1, contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
 
                 Button(action: toggleSelection) {
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
@@ -403,5 +406,6 @@ struct BlurryPhotoTile: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
