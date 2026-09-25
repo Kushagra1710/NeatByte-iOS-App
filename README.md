@@ -61,7 +61,7 @@ Run the tests with **Product > Test** in Xcode.
 
 ## Demo
 
-Screen recording: Add the public or unlisted video link here before submission.
+Screen recording: https://drive.google.com/drive/folders/1z0koozR9enO83oejPnVF7X3yKlHJfYcU?usp=share_link
 
 ## Author
 
