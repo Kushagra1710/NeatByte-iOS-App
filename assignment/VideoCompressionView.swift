@@ -9,6 +9,7 @@ struct VideoCompressionSection: View {
 
     @State private var model = VideoCompressionModel()
     @State private var quality: VideoCompressionQuality = .balanced
+    @State private var showsSavedAlert = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -40,6 +41,16 @@ struct VideoCompressionSection: View {
         }
         .padding()
         .background(.purple.opacity(0.08), in: RoundedRectangle(cornerRadius: 18))
+        .onChange(of: model.state) { _, newState in
+            if case .completed = newState {
+                showsSavedAlert = true
+            }
+        }
+        .alert("Compressed Video Saved", isPresented: $showsSavedAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("The compressed copy was saved in the Photos app. Your original video is still unchanged.")
+        }
         .onDisappear {
             if model.isWorking {
                 model.cancel()
